@@ -1,0 +1,99 @@
+package com.worknetwork.adapters;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.TextView;
+
+import com.worknetwork.R;
+import com.worknetwork.activities.ProfessionalAchievements_Activity;
+import com.worknetwork.models.SalaryRange;
+import com.worknetwork.models.Skills;
+import com.worknetwork.models.UserLogin;
+import com.worknetwork.utils.Helper;
+
+import java.util.List;
+
+/**
+ * Created by dipali-shivlab on 6/6/17.
+ */
+
+public class Adapter_Achievements extends RecyclerView.Adapter<Adapter_Achievements.MyViewHolder> {
+    Context context;
+    private List<UserLogin.Info.JobseekerAchievement> detail;
+    View view;
+    String date = "", str_month = "", str_year = "";
+
+    public Adapter_Achievements(Context context, List<UserLogin.Info.JobseekerAchievement> detail) {
+        this.context = context;
+        this.detail = detail;
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_jobseeker_other_display, parent, false);
+        MyViewHolder myHolderClass = new MyViewHolder(view);
+        return myHolderClass;
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        holder.title.setText(detail.get(position).getOrganizationName());
+        if (detail.get(position).getStartYear() != null) {
+            str_month = Helper.SplitMonth(detail.get(position).getStartYear());
+            str_year = Helper.SplitYear(detail.get(position).getStartYear());
+            holder.date.setText(Helper.getMonthShortName(str_month) + "-" + str_year);
+        }
+        holder.desc.setText(detail.get(position).getDescribeAchievements());
+
+        /*holder.img_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(context, ProfessionalAchievements_Activity.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("Data",detail.get(position));
+                i.putExtras(bundle);
+                context.startActivity(i);
+            }
+        });*/
+        holder.ll_row_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, ProfessionalAchievements_Activity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Data", detail.get(position));
+                i.putExtras(bundle);
+                context.startActivity(i);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return detail.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView title, date, desc;
+        ImageView img_edit;
+        LinearLayout ll_row_view;
+
+        public MyViewHolder(View item) {
+            super(item);
+            title = (TextView) item.findViewById(R.id.title);
+            date = (TextView) item.findViewById(R.id.date);
+            desc = (TextView) item.findViewById(R.id.desc);
+            img_edit = (ImageView) item.findViewById(R.id.iv_edit_more);
+            ll_row_view = (LinearLayout) item.findViewById(R.id.ll_row_view);
+        }
+    }
+}
+

@@ -1,0 +1,109 @@
+package com.worknetwork.adapters;
+
+import android.content.Context;
+import android.content.Intent;
+import android.media.Image;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.worknetwork.R;
+import com.worknetwork.activities.Jobseeker_Edit_EducationActivity;
+import com.worknetwork.models.Courses;
+import com.worknetwork.models.CoursesType;
+import com.worknetwork.models.Education;
+import com.worknetwork.models.UserLogin;
+
+import java.util.List;
+
+/**
+ * Created by shivlab-android on 8/6/17.
+ */
+
+public class Adapter_EduactionDetails extends BaseAdapter {
+    Context context;
+    LayoutInflater inflater;
+    List<UserLogin.Info.JobseekerEducation> educationList;
+
+    public Adapter_EduactionDetails(Context context, List<UserLogin.Info.JobseekerEducation> educationList) {
+        this.context = context;
+        this.educationList = educationList;
+        inflater = LayoutInflater.from(this.context);
+    }
+
+    @Override
+    public int getCount() {
+        return educationList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return educationList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final MyViewHolder myViewHolder;
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.row_jobseeker_edu_display, parent, false);
+            myViewHolder = new MyViewHolder(convertView);
+            convertView.setTag(myViewHolder);
+        } else {
+            myViewHolder = (MyViewHolder) convertView.getTag();
+        }
+        myViewHolder.tv_university.setText(educationList.get(position).getUniversityName());
+        myViewHolder.tv_coursetype.setText(educationList.get(position).getCourseName());
+        if(educationList.get(position).getCoursesName()==null){
+            myViewHolder.tv_course.setText(educationList.get(position).getOtherCourse());
+        }else {
+            myViewHolder.tv_course.setText(educationList.get(position).getCoursesName());
+        }
+        myViewHolder.tv_qualification.setText(educationList.get(position).getEducationName());
+       /* myViewHolder.iv_edit_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(context, Jobseeker_Edit_EducationActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Data",educationList.get(position));
+                i.putExtras(bundle);
+                context.startActivity(i);
+            }
+        });*/
+        myViewHolder.ll_row_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(context, Jobseeker_Edit_EducationActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Data",educationList.get(position));
+                i.putExtras(bundle);
+                context.startActivity(i);
+            }
+        });
+        return convertView;
+    }
+
+    private class MyViewHolder {
+        TextView tv_university, tv_course, tv_coursetype, tv_qualification;
+        ImageView iv_edit_more;
+        LinearLayout ll_row_view;
+        public MyViewHolder(View view) {
+            tv_university = (TextView) view.findViewById(R.id.tv_university);
+            tv_course = (TextView) view.findViewById(R.id.tv_course);
+            tv_coursetype = (TextView) view.findViewById(R.id.tv_coursetype);
+            tv_qualification = (TextView) view.findViewById(R.id.tv_qualification);
+            iv_edit_more=(ImageView)view.findViewById(R.id.iv_edit_more);
+            ll_row_view=(LinearLayout)view.findViewById(R.id.ll_row_view);
+        }
+    }
+}
+
