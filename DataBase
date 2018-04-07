@@ -1,2 +1,155 @@
 # Structure
 Structure
+package com.example.databaseapp.model;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+
+public class Db_Helper  extends SQLiteOpenHelper{
+
+    final static String DatabaseName="MyDb",TableName="tblsignup";
+    final static String FILE_DIR="MyData";
+    SQLiteDatabase db=this.getWritableDatabase();
+   // ContentValues cv=new ContentValues()
+    // Contacts Table Columns names
+    private static final String firstname = "firstname";
+    private static final String lastname = "lastname";
+    private static final String gender = "gender";
+    private static final String dob = "dob";
+    private static final String address = "address";
+    private static final String city = "city";
+    private static final String state = "state";
+    private static final String pincode = "pincode";
+    private static final String phoneno = "phoneno";
+    private static final String emailid = "emailid";
+    private static final String password = "password";
+
+
+    public Db_Helper(Context context) {
+        super(context,DatabaseName,null,5);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String query="CREATE TABLE " + TableName  + "(" + firstname + " TEXT, "  + lastname + " TEXT, " + gender + " TEXT," + dob + " TEXT,"  + address + " TEXT, " + city + " TEXT, " + state + " TEXT, " + pincode + " TEXT, " + phoneno + " TEXT, "
+                + emailid + " TEXT, " + password + " TEXT " + ")";
+        Log.e("QUERY " , "" + query);
+        db.execSQL(query);
+    }
+
+    // Insert Record
+    public void addContact(Information information) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(firstname,information.getFirstname());
+        cv.put(lastname,information.getLastname());
+        cv.put(gender,information.getGender());
+        cv.put(dob,information.getDob());
+        cv.put(address,information.getAddress());
+        cv.put(city,information.getCity());
+        cv.put(state,information.getState());
+        cv.put(pincode,information.getPin());
+        cv.put(phoneno,information.getPhoneno());
+        cv.put(emailid,information.getEmailid());
+        cv.put(password,information.getPassword());
+
+        // Inserting Row
+        db.insert(TableName, null, cv);
+        db.close(); // Closing database connection
+    }
+
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TableName);
+    }
+
+    //Search All Record
+    public List<Information> getAllContacts() {
+        List<Information> informationsList = new ArrayList<Information>();
+        String selectQuery = "SELECT  * FROM " + TableName;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Information information = new Information();
+                information.setFirstname(cursor.getString(0));
+                information.setLastname(cursor.getString(1));
+                information.setGender(cursor.getString(2));
+                information.setDob(cursor.getString(3));
+                information.setAddress(cursor.getString(4));
+                information.setCity(cursor.getString(5));
+                information.setState(cursor.getString(6));
+                information.setPin(cursor.getString(7));
+                information.setPhoneno(cursor.getString(8));
+                information.setEmailid(cursor.getString(9));
+                information.setPassword(cursor.getString(10));
+                informationsList.add(information);
+            } while (cursor.moveToNext());
+        }
+        return informationsList;
+    }
+    //Search Record
+   public String getSinlgeEntry(String username) throws SQLException {
+       Cursor cursor = db.query("tblsignup", null, " emailid=?", new String[] { username }, null, null, null);
+       Log.v("Cursor Count",String.valueOf(cursor.getCount()));
+           if (cursor.getCount()< 1)
+           {
+               cursor.close();
+               return "NOT EXIST";
+           }
+           cursor.moveToFirst();
+           String password = cursor.getString(cursor.getColumnIndex("password"));
+           cursor.close();
+       return password;
+    }
+    // Updating  Record
+    public int updateContact(Information information) {
+        ContentValues values = new ContentValues();
+        values.put(firstname, information.getFirstname());
+        values.put(lastname, information.getLastname());
+        values.put(gender, information.getGender());
+        values.put(dob, information.getDob());
+        values.put(address, information.getAddress());
+        values.put(city, information.getCity());
+        values.put(state, information.getState());
+        values.put(pincode, information.getPin());
+        values.put(phoneno, information.getPhoneno());
+        // updating row
+        return db.update(TableName, values, emailid + " = ?", new String[] {information.getEmailid()});
+    }
+
+    //Search Record single
+    public String getSinlgeData(String username) throws SQLException {
+        Cursor cursor = db.query("tblsignup", null, " emailid=?", new String[] { username }, null, null, null);
+        Log.v("Cursor Count",String.valueOf(cursor.getCount()));
+        if (cursor.getCount()< 1)
+        {
+            cursor.close();
+            return "NOT EXIST";
+        }
+        cursor.moveToFirst();
+        String emailid = cursor.getString(cursor.getColumnIndex("emailid"));
+        cursor.close();
+        return emailid;
+    }
+
+    //Delete Record
+    public void deleteContact(Information information) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TableName, emailid + " = ?",new String[] { String.valueOf(information.getEmailid()) });
+        db.close();
+    }
+}
