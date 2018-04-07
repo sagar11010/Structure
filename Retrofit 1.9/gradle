@@ -1,0 +1,17 @@
+ compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
+
+
+APIHandler.getApiService().api_userLogin(getFieldMapForLogin(), new CancelableCallback<UserLogin>() {
+            @Override
+            public void onSuccess(UserLogin loginMainResponse, Response response) {
+
+		}
+@Override
+            public void onFailure(RetrofitError cause) {
+
+                
+            }
+        });
