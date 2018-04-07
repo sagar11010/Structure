@@ -1,8 +1,6 @@
-package com.app.nrisamajuser.database;
 
-/**
- * Created by shivlab-android on 1/8/17.
- */
+
+
 
 public class CityModel {
 
