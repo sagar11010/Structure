@@ -1,0 +1,51 @@
+ compile 'com.squareup.retrofit2:retrofit:2.0.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+
+
+public void callLoginAPI() {
+        Helper.showProgressDialog(this);
+        final APIServices apiServices = APIHandler.getApiServices();
+        Call<LoginModel> call = apiServices.api_check_member_login(setLoginFieldMap());
+        call.enqueue(new Callback<LoginModel>() {
+            @Override
+            public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus().equalsIgnoreCase("true")) {
+                        Helper.hideDialog();
+                        /*Todo Save Login session*/
+                        
+                        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+                        Helper.hideDialog();
+                        MessageUtils.showToast(LoginActivity.this, response.body().getMessage());
+                    }
+                } else {
+                    Helper.hideDialog();
+                    MessageUtils.showLog("Login API", response.body().getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginModel> call, Throwable t) {
+                Helper.hideDialog();
+                MessageUtils.showLog("Login API", t.getMessage());
+            }
+        });
+    }
+
+    private Map<String, String> setLoginFieldMap() {
+        Map<String, String> map = new HashMap<>();
+        map.put("email_id", edt_username.getText().toString());
+        map.put("password", edt_password.getText().toString());
+        if ( sessionManager.retrieveValuefromStringKey(Constant.FCM_ID).equalsIgnoreCase("")){
+            map.put("device_id", Constant.DEVICE_ID);
+        }else {
+            map.put("device_id", sessionManager.retrieveValuefromStringKey(Constant.FCM_ID));
+        }
+
+        map.put("os_flag", Constant.OS_FLAG);
+        MessageUtils.showLog("Login Field Map", map.toString());
+        return map;
+    }

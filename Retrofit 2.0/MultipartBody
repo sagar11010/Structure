@@ -1,0 +1,17 @@
+private MultipartBody setEditProfileFieldMap() {
+        MultipartBody.Builder multipartTypedOutput = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        multipartTypedOutput.addFormDataPart("fullname", edt_name.getText().toString());
+        multipartTypedOutput.addFormDataPart("email_id", edt_emailid.getText().toString());
+        multipartTypedOutput.addFormDataPart("password", edt_password.getText().toString());
+        multipartTypedOutput.addFormDataPart("device_id", sessionManager.retrieveValuefromStringKey(Constant.FCM_ID));
+        multipartTypedOutput.addFormDataPart("os_flag", Constant.OS_FLAG);
+        multipartTypedOutput.addFormDataPart("phone_number", edt_phoneno.getText().toString());
+        multipartTypedOutput.addFormDataPart("country_code", edt_phonecode.getText().toString());
+        multipartTypedOutput.addFormDataPart("country", edt_country.getText().toString());
+        multipartTypedOutput.addFormDataPart("state", edt_state.getText().toString());
+        multipartTypedOutput.addFormDataPart("city", edt_city.getText().toString());
+        if (requestFile != null) {
+            multipartTypedOutput.addFormDataPart("profile_picture", user_picfile.getName(), requestFile);
+        }
+        return multipartTypedOutput.build();
+    }
