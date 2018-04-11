@@ -10,9 +10,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-/**
- * Created by Rahul on 5/10/15.
- */
+
+ 
 public abstract class CancelableCallback<T> implements Callback<T> {
 
     private static List<CancelableCallback> mList = new ArrayList<>();
