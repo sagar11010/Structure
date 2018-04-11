@@ -1,4 +1,4 @@
-package com.worknetwork.rest;
+
 
 
 import com.squareup.okhttp.RequestBody;
@@ -54,9 +54,6 @@ import retrofit.http.Part;
 import retrofit.mime.MultipartTypedOutput;
 
 
-/**
- * Created by Shivlabs on 8/12/2016.
- */
 
 public interface WorkNetwork_APIServices {
     /**
