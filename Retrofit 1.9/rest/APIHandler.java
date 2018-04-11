@@ -1,4 +1,4 @@
-package com.worknetwork.rest;
+
 
 import com.google.gson.Gson;
 import com.squareup.okhttp.OkHttpClient;
@@ -10,9 +10,6 @@ import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
-/**
- * Created by Shivlabs on 8/12/2016.
- */
 public class APIHandler
 {
     private static final String BASE_URL = Constants.Base_URL;
