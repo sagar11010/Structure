@@ -1,0 +1,21 @@
+ implementation 'com.facebook.fresco:fresco:1.5.0'
+ 
+ 
+ <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/ivProfilePic"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/placeholder"
+                android:focusable="false"
+                android:scaleType="fitCenter"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                fresco:roundAsCircle="true"
+                fresco:roundBottomLeft="true"
+                fresco:roundBottomRight="true"
+                fresco:roundTopLeft="true"
+                fresco:roundTopRight="true"
+                fresco:roundedCornerRadius="5dp"
+                fresco:roundingBorderColor="@color/violete"
+                fresco:roundingBorderWidth="2dp" />
