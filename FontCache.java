@@ -8,6 +8,10 @@ import java.util.Hashtable;
 /**
  * Created by Admin1 on 2/16/2016.
  */
+
+/**
+ * This is a font cache file.
+ */
 public class FontCache {
 
     private static Hashtable<String, Typeface> fontCache = new Hashtable<String, Typeface>();
