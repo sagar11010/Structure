@@ -1,6 +1,6 @@
 
 
-
+//City class
 
 public class CityModel {
 
