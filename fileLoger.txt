@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
+
+//using this file you can store log in side your file manager file
 public abstract class Logger {
 
     private static FileWriter fw;
