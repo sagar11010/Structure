@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
+
+//this file is use for get log in your filemanager
 public abstract class Logger {
 
     private static FileWriter fw;
